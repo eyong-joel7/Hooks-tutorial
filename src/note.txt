@@ -1,0 +1,97 @@
+                         useEffect HOOK
+ - The Effect HOOK is used to cause side effect in functional components.
+- Just like the components lifecylce method in class components is being used to cause side effect in 
+  class components. 
+  Note that the useEffect method is miic the componentDidMount, componentDidUpdate and ComponentUnmount 
+  methods of clas components
+ - The useEffect accept a function that perform the require side effect as an arguement  
+ - Effect Hooks is call on every render. It runs after the first render and after every update
+   To use Hooks Effects
+    1. import useEffect from React 
+    2. call the function (useEffect( a function to be executed))
+The useEffect is call after each render. This might cause performance problems
+To conditionally run the useEffect, not like Class components were we just need to do a condition
+ check between the prestate value and the current state value with the componentDidUpdate method. 
+ With Hooks effect, we pass in a second argument which is an array containing the variables that got the right 
+ to cause the useEffect to re - render
+  e.g useEffect(function1(), [var1]) this implies the useEffect will re render only after the value of var1 changes
+
+  To run an effect only ONCE - Mimiting componentDidMount in class component.
+  In a class Componenet, an event can made to run only once by specifying in the componentDidMount method. 
+  In Hooks effect though, this can only be achieved using the conditioning rerendering seen above. In this case we pass 
+  an ampty array as a second arguement to the useEffect. We are simply telling the component to render the useeffect only once during 
+  'a componentDidMount' and will not depend on any other variable for rerendering.
+
+        Fetching Data with the useEffect 
+ -  install axios in project folder.
+ - use inside of useEffect method - axios.get(url).then(reponse =>{ setArray(response.data)}) .catch(err=>{})
+     
+     useContext Hooks
+  The Context api was used in Class component in order to transfer props from parent component to child 
+  components nested deep in the component tree. 
+  Hence Context provide away to pass data through the component tree without having to pass props down manually at every level
+          STEPS
+  1. In the Parent component, creacte the const usercontex  =  React.createContext()
+  2. Wrap the first level nest Parent component with the context provider and the value to be passed
+  <userContent.provider value = "Hello">
+  <componentC/>
+  </userContent.provider>
+  3. The final step will be to consume the value in the child - targeted  omponent nested inside the tree
+  to do this, first export the created userContent and then import it in the child component before we can consume it.
+  In the target component, wrap the  JSX with the UserContext.consumer
+   e.g 
+   <UserContext.consumer>
+   {
+    user =>{
+      return <div>User context value {user}
+    }
+   }
+   </UserContext.consumer>
+
+                 useReducer HOOKS
+    useReducer is a Hook for managing the state of a component. Just like useState, use reducer manages the state of a component
+    As a summary
+    useState - state
+    useEFFECT - side Effects
+    useContext - context api
+    useReducer - reducers
+    For better understanding the reducer hooks, learning how a reducer function works on an array is manditory
+    the reduce() method executes a reducer function (that you provide) on each element if the array, resulting in a single output value
+    example
+    1. const array1 = [1, 2 ,3, 4];
+    2. const reducer = (accumulator, currentValue) =>accumulator + currentValue;
+    3. console.log(array1.reduce(reducer));
+    //expected output: 10
+    console.log(array1.reduce(reducer, 5)) this will add up the array1 items and then add the initial value of 5 to it. 
+             reduce versus useReducer
+  1.  array1.reduce(reducer, initialValue) - javascript
+     useReducer(reducer, initialState)   -  react 
+  2. singleValue = reduce(accumulator, itemValue)
+     newState = reducer(currentState, action)
+  3. reduce method returns a single value
+     useReducer returns a pair of values [newState, dispatch] 
+
+Inorder to make use of the useReducer
+1. define the initial state variable - object
+2. Array Destructure the useReduce as follows; const [count, dispatch]   = useReduce(reducerfnct, initialCount) 
+  where <count> represent the new state and the dispatch is execute an action from the reducer function
+3. define the reucerfunct; const reducerfunc = reducer(action, currentState){
+         switch(action) {
+           case 'dispatchvalue1': return currentState + 1; (increment)
+           case 'dispatchvalue2': return currentState - 1; (decrement)
+           default: return currentState
+         }
+        }
+4. implement the dispatch in a JSX example button oncClick action
+<button oncClick = {()=>dispatch('increment')}> Increment
+</button>
+5. Display or make use of the updated state count example in an existing 
+JSX
+<div> {count} </div>
+
+We may want to manupulate two states in our componentin this case we make use of state objects. the Method is similiar
+to above implementation, we simply change the state declaration variale to an objects containing the states as properties
+2. next we include the tpe and value property to the dispatch method in the JSX 
+3. the switch becomes switch(action.type)
+and the states are updated as objeccts for a case e.g
+return {...currentState, firstCount: currentState.first+1} make use of the spread operator
